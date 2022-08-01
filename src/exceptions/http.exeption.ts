@@ -9,7 +9,5 @@ class HttpException extends Error {
     this.message = message;
   }
 }
-   
-export default HttpException;
 
-// new HttpException(404, 'Post not found')
+export default HttpException;
