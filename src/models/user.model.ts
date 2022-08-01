@@ -25,7 +25,7 @@ export default class UserModel {
     const { username, classe, level, password } = user;
 
     const query = `INSERT INTO Trybesmith.Users (username, classe, level, password) 
-      VALUES ('Max', 'Swordsman', 12, 'savingPeople')`;
+      VALUES (?, ?, ?, ?)`;
 
     const values = [username, classe, level, password];
 
