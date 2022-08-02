@@ -5,15 +5,12 @@ import dotenv from 'dotenv';
 // import HttpException from '../exceptions/http.exeption';
 // import UserModel from '../models/user.model';
 
-import User from '../interface/user.interface';
 import Token from '../types/token';
 
 dotenv.config();
 
-const { JWT_SECRET } = process.env;
-
-export default async function createToken(user: User): Promise<Token> {
-  const token = jwt.sign({ data: user }, JWT_SECRET || '', { expiresIn: '20m' });
+export default async function createToken(user: object): Promise<Token> {
+  const token = jwt.sign({ data: user }, 'secret', { expiresIn: '20m' });
   return { token };
 }
 
