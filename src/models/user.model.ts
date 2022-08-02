@@ -31,7 +31,7 @@ export default class UserModel {
 
     const [{ insertId }] = await this.connection.execute<ResultSetHeader>(query, values);
 
-    const newUser = { id: insertId, ...user };
+    const newUser = { id: insertId, username: user.username };
    
     return createToken(newUser);
   }
