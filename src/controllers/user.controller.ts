@@ -16,7 +16,7 @@ class UserController {
     const user = { ...req.body };
 
     const token = await this.userService.create(user);
-    res.status(Number(HttpStatus.CREATED)).json(token);
+    res.status(HttpStatus.CREATED).json(token);
   };
 }
 
