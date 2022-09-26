@@ -15,7 +15,7 @@ export default class CreateOrderService {
     const orderId = await this.ordersRepository.create(userId);
 
     await productsIds.forEach(async (productId: number) => {
-      await this.productsRepository.update(orderId, productId);
+      await this.productsRepository.update({ orderId, productId });
     });
     
     return { userId, productsIds };
