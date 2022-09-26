@@ -22,12 +22,12 @@ export default class MySqlUserRepository implements IUserRepository {
     return rows as UserDTO[];
   };
 
-  createUser = async ({ username, classe, level, password }: IUser): Promise<UserDTO> => {
+  create = async ({ username, classe, level, password }: IUser): Promise<UserDTO> => {
     const [{ insertId }] = await Connection.execute<ResultSetHeader>(
       'INSERT INTO Trybesmith.Users (username, classe, level, password) VALUES (?, ?, ?, ?)',
       [username, classe, level, password],
     );
 
-    return { id: insertId, username, classe, level } as UserDTO;
+    return { id: insertId, username, classe, level, password };
   };
 }
