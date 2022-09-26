@@ -2,10 +2,13 @@ import express from 'express';
 import morgan from 'morgan';
 
 import errorMiddleware from './middlewares/errorHandler';
-import authRouter from './routes/AuthRouter';
-import orderRouter from './routes/OrderRouter';
-import productRouter from './routes/ProductRouter';
-import userRouter from './routes/UserRouter';
+
+import {
+  authRouter,
+  orderRouter,
+  productRouter,
+  userRouter,
+} from './routes';
 
 const app = express();
 
