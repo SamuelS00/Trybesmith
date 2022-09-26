@@ -6,9 +6,9 @@ export default class LoginUserController {
     private loginUserService: LoginUserService,
   ) { }
 
-  handle = async (req: Request, res: Response): Promise<void> => {
+  async handle(req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
     const token = await this.loginUserService.execute({ username, password }); 
     res.status(200).json({ token });
-  };
+  }
 }
