@@ -4,5 +4,10 @@ export interface IOrder {
 }
 
 export interface OrderDTO extends IOrder {
-  id: number;
+  id: string;
+}
+
+export interface OrderProduct {
+  orderId: number;
+  productId: number;
 }
