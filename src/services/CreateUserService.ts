@@ -1,18 +1,22 @@
 import { IUser } from '../interfaces/IUser';
 import { IUserRepository } from '../models/repositories/IUsersRepository';
-import validateUser from '../validations/userValidations';
-import JwtToken from './JwtService';
+
+import InvalidParam from '../errors/InvalidParam';
+import User from '../models/entitites/User';
+import JwtToken from '../helpers/JwtService';
 
 export default class CreateUserService {
   constructor(
-    private userRepository: IUserRepository,
-    private tokenService: JwtToken,
+    private repository: IUserRepository,
   ) { }
 
-  execute = async (user: IUser): Promise<string> => {
-    validateUser(user);
-    const newUser = await this.userRepository.createUser(user);
-    const token = this.tokenService.generate({ id: newUser.id });
+  async execute({ username, classe, level, password }: IUser): Promise<string> {
+    const userOrError = User.create({ username, classe, level, password });
+    if (userOrError instanceof InvalidParam) throw userOrError;
+
+    const newUser = await this.repository.create(userOrError.props);
+
+    const token = JwtToken.generate({ id: newUser.id });
     return token;
-  };
+  }
 }
