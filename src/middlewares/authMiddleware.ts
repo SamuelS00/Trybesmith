@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { Unauthorized } from '../errors/index';
-import JwtToken from '../services/JwtService';
+import JwtToken from '../helpers/JwtService';
 
 export interface CustomRequest extends Request {
   id: number
