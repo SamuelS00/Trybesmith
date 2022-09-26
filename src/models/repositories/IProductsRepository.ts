@@ -1,8 +1,8 @@
-import { IProduct } from '../../interfaces/IProduct';
-import Product from '../entitites/Product';
+import { IProduct, ProductDTO } from '../../interfaces/IProduct';
+import { OrderProduct } from '../../interfaces/IOrder';
 
 export interface IProductsRepository {
-  getAll(): Promise<Product[]>;
-  create({ name, amount }: IProduct): Promise<IProduct>;
-  update(orderId: number, productId: number): Promise<void>
+  getAll(): Promise<IProduct[]>;
+  create({ name, amount }: IProduct): Promise<ProductDTO>;
+  update({ orderId, productId }: OrderProduct): Promise<void>
 }
