@@ -2,11 +2,11 @@ import { IProductsRepository } from '../models/repositories/IProductsRepository'
 
 export default class GetAllProductService {
   constructor(
-    private productsRepository: IProductsRepository,
+    private repository: IProductsRepository,
   ) { }
 
   execute = async () => {
-    const products = await this.productsRepository.getAll();
+    const products = await this.repository.getAll();
     return products;
   };
 }
