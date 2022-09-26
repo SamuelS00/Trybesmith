@@ -7,13 +7,11 @@ export default class CreateOrderController {
     private createOrderService: CreateOrderService,
   ) { }
 
-  handle = async (req: CustomRequest, res: Response): Promise<void> => {
+  async handle(req: CustomRequest, res: Response): Promise<void> {
     const { productsIds } = req.body;
     const userId = req.id;
 
-    console.log(userId);
-
     const product = await this.createOrderService.execute(productsIds, userId);
-    res.status(201).json(product);
-  };
+    res.status(201).json({ product });
+  }
 }

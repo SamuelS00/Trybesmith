@@ -3,11 +3,11 @@ import GetAllOrderService from '../services/GetAllOrderService';
 
 export default class GetAllProductController {
   constructor(
-    private getAllOrderServive: GetAllOrderService,
+    private service: GetAllOrderService,
   ) { }
 
-  handle = async (req: Request, res: Response): Promise<void> => {
-    const orders = await this.getAllOrderServive.execute();
-    res.status(200).json(orders);
-  };
+  async handle(req: Request, res: Response): Promise<void> {
+    const orders = await this.service.execute();
+    res.status(200).json({ orders });
+  }
 }
