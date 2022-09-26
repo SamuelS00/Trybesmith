@@ -2,11 +2,11 @@ import { IOrdersRepository } from '../models/repositories/IOrdersRepository';
 
 export default class GetAllOrderService {
   constructor(
-    private ordersRepository: IOrdersRepository,
+    private repository: IOrdersRepository,
   ) { }
 
   execute = async () => {
-    const orders = await this.ordersRepository.getAll();
+    const orders = await this.repository.getAll();
     return orders;
   };
 }
