@@ -1,7 +1,7 @@
 import { ResultSetHeader } from 'mysql2';
 import { IOrdersRepository } from '../IOrdersRepository';
-import Connection from '../../Connection';
 import { OrderDTO } from '../../../interfaces/IOrder';
+import Connection from '../../Connection';
 
 export default class MySqlOrdersRepository implements IOrdersRepository { 
   public getAll = async (): Promise<OrderDTO[]> => {
