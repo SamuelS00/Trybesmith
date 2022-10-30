@@ -1,9 +1,16 @@
 import { OkPacket, RowDataPacket, ResultSetHeader, FieldPacket } from 'mysql2';
 import dotenv from 'dotenv';
 import mysql, { Pool } from 'mysql2/promise';
-import IConnection from './IConnection';
 
 dotenv.config();
+
+interface IConnection {
+  execute<
+    T extends RowDataPacket[][] | RowDataPacket[] | OkPacket | OkPacket[] | ResultSetHeader>(
+    sql: string,
+    values: any | any[] | { [param: string]: any }
+  ): Promise<[T, FieldPacket[]]>;
+}
 
 class Connection implements IConnection {
   private static connection: Pool;
