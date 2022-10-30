@@ -13,9 +13,9 @@ export default class Name {
     return new Name(name);
   }
 
-  static validateStringLength = (str: string, length: number) => {
+  static validateStringLength(str: string, length: number) {
     if (str.length < length) return false;
   
     return true;
-  };
+  }
 }  
