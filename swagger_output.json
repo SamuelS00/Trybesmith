@@ -1,0 +1,72 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "this route is responsible for the authentication of an already registered user",
+        "parameters": [
+          { 
+            "in": "body",
+            "description": "Requires a username and password to create a new user",
+            "schemas": {
+              "$username": "Pablo Costa",
+              "$password": "3dsnien39dn"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "user logged in successfully",
+            "schema": {
+              "token": "string"
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "description": "this route is responsible for returning all products registered in the database",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "this route is responsible for creating a new product in the database",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/users": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/orders": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    }
+  }
+}
