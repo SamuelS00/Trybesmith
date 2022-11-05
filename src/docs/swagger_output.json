@@ -1,0 +1,392 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3001",
+  "basePath": "/",
+  "schemes": [
+    "http", "https"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "route responsible for user login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "receive a valid username and password",
+            "required": "true",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "if the user information is valid, a token is returned",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "400": {
+            "description": "if no valid username and password are provided",
+            "schema": {
+              "$ref": "#/definitions/UsernameOrPasswordIsRequired400"
+            }
+          },
+          "401": {
+            "description": "receive a invalid username and password",
+            "schema": {
+              "$ref": "#/definitions/LoginInvalid401"
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "returns a list of all products registered in the database",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "returns a list of all products registered in the database",
+            "schema": { 
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductWithId"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "security": [{"bearerAuth": []}],
+        "description": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": "true",
+            "description": "receives a name and quantity of the new product",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "if the data passed in the body are valid, the new product created is rotated",
+            "schema": {
+              "$ref": "#/definitions/ProductWithId"
+            }
+          },
+          "400": {
+            "description": "if a given product is not passed with the expected certain type",
+            "schema": {
+              "$ref": "#/definitions/AttributeHasCertainType"
+            }
+          },
+          "422": {
+            "description": "if any attribute does not respect the size determined by the parameters",
+            "schema": {
+              "$ref": "#/definitions/AttributeHasACertainSize"
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "security": [{"bearerAuth": []}],
+        "description": "route responsible for creating a new user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": "true",
+            "description": "receives a username, classe, level and password of the new user",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "if the data passed in the body is valid, a token is returned",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "400": {
+            "description": "if a given product is not passed with the expected certain type",
+            "schema": {
+              "$ref": "#/definitions/AttributeHasCertainType"
+            }
+          },
+          "422": {
+            "description": "if any attribute does not respect the size determined by the parameters",
+            "schema": {
+              "$ref": "#/definitions/AttributeHasACertainSize"
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "security": [{"bearerAuth": []}],
+        "description": "returns a list of all orders according to the user's token logged in the request",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "in case of success, the list of orders is returned",
+            "schema": {
+              "type": "array",
+              "$ref": "#/definitions/OrderWithId"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "security": [{"bearerAuth": []}],
+        "description": "responsible for creating a new order",
+        "parameters": [
+          {
+            "in": "body",
+            "description": "receives a productsIds of the new user",
+            "name": "body",
+            "required": "true",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productsIds": {
+                  "type": "array",
+                  "example": [1, 2]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "in case of success, the new order created is returned",
+            "schema": {
+              "$ref": "#/definitions/NewOrder"
+            }
+          },
+          "400": {
+            "description": "if a given product is not passed with the expected certain type",
+            "schema": {
+              "$ref": "#/definitions/AttributeHasCertainType"
+            }
+          },
+          "401": {
+            "description": "if o does not have a token in the request or the token is invalid",
+            "schema": {
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "\"Token not found\" or \"Invalid token\""
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "if any attribute does not respect the size determined by the parameters",
+            "schema": {
+              "$ref": "#/definitions/AttributeHasACertainSize"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Login": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "reigal"
+        },
+        "password": {
+          "type": "string",
+          "example": "1dragaonoceu"
+        }
+      }
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC J9.eyJpZCI6MSwiaWF0IjoxNjY0ODA2NzQxLCJleHAiOjE2NjQ4MDc5NDF9.yXXemFAAIfY8sHWguzLrfuhQgzffPIZTp1khkvqp88U"
+        }
+      }
+    },
+    "LoginInvalid401": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Username or password invalid"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Espada longa"
+        },
+        "amount": {
+          "type": "string",
+          "example": "30 peças de ouro"
+        }
+      }
+    },
+    "ProductWithId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Espada longa"
+        },
+        "amount": {
+          "type": "string",
+          "example": "30 peças de ouro"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "MAX"
+        },
+        "classe": {
+          "type": "string",
+          "example": "swordsman"
+        },
+        "level": {
+          "type": "number",
+          "example": 10
+        },
+        "password": {
+          "type": "string",
+          "example": "SavingPeople"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "number",
+          "example": 1
+        },
+        "productsIds": {
+          "type": "array",
+          "example": [5]
+        }
+      }
+    },
+    "OrderWithId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "exampe": 1
+        },
+        "userId": {
+          "type": "number",
+          "example": 1
+        },
+        "productsIds": {
+          "type": "array",
+          "example": [1, 2]
+        }
+      }
+    },
+    "NewOrder": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "number",
+          "example": 1
+        },
+        "productsIds": {
+          "type": "array",
+          "example": [1, 2]
+        }
+      }
+    },
+    "UsernameOrPasswordIsRequired400": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "attribute is required"
+        }
+      }
+    },
+    "AttributeHasCertainType": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"attribute\" must be a x"
+        } 
+      }
+    },
+    "AttributeHasACertainSize": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "\"attribute\" length must be at least x characters long" 
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "schema": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
